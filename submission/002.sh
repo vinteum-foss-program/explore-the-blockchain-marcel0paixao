@@ -1,5 +1,14 @@
-# (true / false) Verify the signature by this address over this message:
-#   address: `1E9YwDtYf9R29ekNAfbV7MvB4LNv7v3fGa`
-#   message: `1E9YwDtYf9R29ekNAfbV7MvB4LNv7v3fGa`
-#   signature: `HCsBcgB+Wcm8kOGMH8IpNeg0H4gjCrlqwDf/GlSXphZGBYxm0QkKEPhh9DTJRp2IDNUhVr0FhP9qCqo2W0recNM=`
-false
+    # (true / false) Verify the signature by this address over this message:
+    #   address: `1E9YwDtYf9R29ekNAfbV7MvB4LNv7v3fGa`
+    #   message: `1E9YwDtYf9R29ekNAfbV7MvB4LNv7v3fGa`
+    #   signature: `HCsBcgB+Wcm8kOGMH8IpNeg0H4gjCrlqwDf/GlSXphZGBYxm0QkKEPhh9DTJRp2IDNUhVr0FhP9qCqo2W0recNM=`
+# Address, message, and signature
+address="1E9YwDtYf9R29ekNAfbV7MvB4LNv7v3fGa"
+message="1E9YwDtYf9R29ekNAfbV7MvB4LNv7v3fGa"
+signature="HCsBcgB+Wcm8kOGMH8IpNeg0H4gjCrlqwDf/GlSXphZGBYxm0QkKEPhh9DTJRp2IDNUhVr0FhP9qCqo2W0recNM="
+
+# Verify the signature
+verification_result=$(bitcoin-cli verifymessage "$address" "$signature" "$message")
+
+# Output the verification result
+echo $verification_result
