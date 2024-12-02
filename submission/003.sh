@@ -2,14 +2,20 @@
 
 #!/bin/bash
 
-BLOCK_HEIGHT=123456
-block_hash=$(bitcoin-cli getblockhash $BLOCK_HEIGHT)
-block_details=$(bitcoin-cli getblock $block_hash 2)
-output_count=0
+# Defina o número do bloco
+BLOCK_NUMBER=123456
+BLOCK_HASH=$(bitcoin-cli getblockhash $BLOCK_NUMBER)
 
-for txid in $(echo "$block_details" | jq -r '.tx[]'); do
-  num_outputs=$(echo "$block_details" | jq -r ".tx[] | select(.txid == \"$txid\") | .vout | length")
-  output_count=$((output_count + num_outputs))
+TX_IDS=$(bitcoin-cli getblock $BLOCK_HASH true | jq -r '.tx[]')
+
+OUTPUT_COUNT=0
+
+for TX_ID in $TX_IDS; do
+    TX=$(bitcoin-cli getrawtransaction $TX_ID true)
+
+    NUM_OUTPUTS=$(echo $TX | jq '.vout | length')
+
+    OUTPUT_COUNT=$((OUTPUT_COUNT + NUM_OUTPUTS))
 done
 
-echo "$output_count"
+echo $OUTPUT_COUNT
