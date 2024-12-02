@@ -1,5 +1,4 @@
 # How many new outputs were created by block 123,456?
-#!/bin/bash
 
 # Get the block hash for block number 123,456
 block_hash=$(bitcoin-cli getblockhash 123456)
