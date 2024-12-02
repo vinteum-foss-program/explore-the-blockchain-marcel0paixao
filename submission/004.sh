@@ -2,10 +2,7 @@
 #   `xpub6Cx5tvq6nACSLJdra1A6WjqTo1SgeUZRFqsX5ysEtVBMwhCCRa4kfgFqaT2o1kwL3esB1PsYr3CUdfRZYfLHJunNWUABKftK2NjHUtzDms2`
 
 xpub="xpub6Cx5tvq6nACSLJdra1A6WjqTo1SgeUZRFqsX5ysEtVBMwhCCRa4kfgFqaT2o1kwL3esB1PsYr3CUdfRZYfLHJunNWUABKftK2NjHUtzDms2"
+index=100
+address=$(bitcoin-cli getdescriptorinfo "wpkh([${xpub}]${index}/*)#0f3ff5ab" | jq -r '.descriptor' | bitcoin-cli getaddressinfo | jq -r '.address')
 
-descriptor="tr($xpub/100)"
-
-taproot_address=$(bitcoin-cli -rpcuser=bitcoinuser -rpcpassword=bitcoinpassword getaddressinfo "$descriptor" | jq -r '.address')
-
-echo $taproot_address
-
+echo "$address"
