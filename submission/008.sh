@@ -7,4 +7,4 @@ raw_tx=$(bitcoin-cli getrawtransaction "$txid" 2)
 
 public_key=$(echo "$raw_tx" | jq -r '.vin[0].txinwitness[2] | .[4:70]')
 
-echo "$public_key[4:68]"
+echo "$public_key"
