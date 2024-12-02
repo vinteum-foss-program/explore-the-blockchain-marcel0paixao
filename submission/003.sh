@@ -1,9 +1,15 @@
 # How many new outputs were created by block 123,456?
 
-xpub="xpub6Cx5tvq6nACSLJdra1A6WjqTo1SgeUZRFqsX5ysEtVBMwhCCRa4kfgFqaT2o1kwL3esB1PsYr3CUdfRZYfLHJunNWUABKftK2NjHUtzDms2"
+block_hash=$(bitcoin-cli -rpcuser=bitcoinuser -rpcpassword=bitcoinpassword getblockhash 123456)
 
-descriptor="tr($xpub/100)"
+block_details=$(bitcoin-cli -rpcuser=bitcoinuser -rpcpassword=bitcoinpassword getblock $block_hash 2)
 
-taproot_address=$(bitcoin-cli -rpcuser=bitcoinuser -rpcpassword=bitcoinpassword getaddressinfo "$descriptor" | jq -r '.address')
+output_count=0
 
-echo "Taproot address at index 100: $taproot_address"
+for tx in $(echo "$block_details" | jq -r '.tx[]'); do
+  num_outputs=$(echo "$block_details" | jq -r ".tx[] | select(.txid == \"$tx\") | .vout | length")
+
+  output_count=$((output_count + num_outputs))
+done
+
+echo $output_count
